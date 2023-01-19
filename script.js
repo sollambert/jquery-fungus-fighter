@@ -7,6 +7,10 @@ $(document).ready(onReady);
 let fungusHP = 100;
 let playerAP = 100;
 let fungusAlive = true;
+let arcanceSceptre = {name: 'arcane-sceptre', damage: 14, cost: 12};
+let entangle = {name: 'entangle', damage: 9, cost: 23};
+let dragonBlade = {name: 'dragon-blade', damage: 47, cost: 38};
+let starFire = {name: 'star-fire', damage: 25, cost: 33};
 
 function onReady() {
     
@@ -34,24 +38,19 @@ function render() {
 
 function onAttack() {
     let attack = $(this);
-    let damage = 0;
-    let apCost = 0;
+
     if (attack.hasClass('arcane-sceptre')) {
-        damage = 14;
-        apCost = 12;
+        attack = arcanceSceptre;
     } else if (attack.hasClass('entangle')) {
-        damage = 9;
-        apCost = 23;
+        attack = entangle;
     } else if (attack.hasClass('dragon-blade')) {
-        damage = 47;
-        apCost = 38;
+        attack = dragonBlade;
     } else if (attack.hasClass('star-fire')) {
-        damage = 25;
-        apCost = 33;
+        attack = starFire;
     }
-    if (playerAP >= apCost) {
-        fungusHP -= damage;
-        playerAP -= apCost;
+    if (playerAP >= attack.cost) {
+        fungusHP -= attack.damage;
+        playerAP -= attack.cost;
     } else {
         console.log('not enough ap')
     }
