@@ -30,6 +30,8 @@ function onReady() {
 function render() {
     $('#hp-meter').val(fungusHP);
     $('#ap-meter').val(playerAP);
+    $('.hp-text').text(`${fungusHP} HP`);
+    $('.ap-text').text(`${playerAP} AP`);
     if (!fungusAlive) {
         let fungus = $('.freaky-fungus');
         fungus.removeClass('walk');
@@ -97,7 +99,7 @@ function onAttack() {
 }
 
 function fungusRegen() {
-    if (fungusHP <= 50) {
+    if (fungusHP < 50 && fungusHP > 0) {
         fungusHP++;
     }
     render();
