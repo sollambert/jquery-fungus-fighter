@@ -12,6 +12,7 @@ const arcaneSceptre = {name: 'arcane-sceptre', damage: 14, cost: 12};
 const entangle = {name: 'entangle', damage: 9, cost: 23};
 const dragonBlade = {name: 'dragon-blade', damage: 47, cost: 38};
 const starFire = {name: 'star-fire', damage: 25, cost: 33};
+const attacks = [arcaneSceptre, entangle, dragonBlade, starFire];
 
 function onReady() {
     
@@ -43,59 +44,51 @@ function render() {
         fungus.addClass('jump');
     }
 
-    if (arcaneSceptre.cost > playerAP) {
-        $('.arcane-sceptre').prop('disabled', true);
-    } else {
-        $('.arcane-sceptre').prop('disabled', false);
-    }
-    if (entangle.cost > playerAP) {
-        $('.entangle').prop('disabled', true);
-    } else {
-        $('.entangle').prop('disabled', false);
-    }
-    if (dragonBlade.cost > playerAP) {
-        $('.dragon-blade').prop('disabled', true);
-    } else {
-        $('.dragon-blade').prop('disabled', false);
-    }
-    if (starFire.cost > playerAP) {
-        $('.star-fire').prop('disabled', true);
-    } else {
-        $('.star-fire').prop('disabled', false);
+    for (let attack of attacks) {
+        if (attack.cost > playerAP) {
+            $(`.${attack.name}`).prop('disabled', true);
+        } else {
+            $(`.${attack.name}`).prop('disabled', false);
+        }
     }
 }
 
 function onAttack() {
     let attack = $(this);
 
-    if (attack.hasClass(arcaneSceptre.name)) {
-        attack = arcaneSceptre;
-    } else if (attack.hasClass(entangle.name)) {
-        attack = entangle;
-    } else if (attack.hasClass(dragonBlade.name)) {
-        attack = dragonBlade;
-    } else if (attack.hasClass(starFire.name)) {
-        attack = starFire;
+
+    for (let attackObj of attacks) {
+        if (attack.hasClass(attackObj.name)) {
+            attack = attackObj;
+            break;
+        }
     }
+
     if (playerAP >= attack.cost) {
         fungusHP -= attack.damage;
         playerAP -= attack.cost;
     } else {
         console.log('not enough ap')
     }
-    if (playerAP < arcaneSceptre.cost
-        && playerAP < entangle.cost
-        && playerAP < dragonBlade.cost
-        && playerAP < starFire.cost) {
-            playerAlive = false;
-        }
+    
+    if (checkIfDead()) {
+        playerAlive = false;
+    }
 
     if (fungusHP <= 0){
         fungusAlive = false;
-    } else if (playerAP <= 0) {
-        playerAlive = false;
     }
     render();
+}
+
+function checkIfDead() {
+    let isDead = true;
+    for (let attack of attacks){
+        if (playerAP > attack.cost) {
+            isDead = false;
+        }
+    }
+    return isDead;
 }
 
 function fungusRegen() {
