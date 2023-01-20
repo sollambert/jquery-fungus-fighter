@@ -68,13 +68,13 @@ function render() {
 function onAttack() {
     let attack = $(this);
 
-    if (attack.hasClass('arcane-sceptre')) {
+    if (attack.hasClass(arcaneSceptre.name)) {
         attack = arcaneSceptre;
-    } else if (attack.hasClass('entangle')) {
+    } else if (attack.hasClass(entangle.name)) {
         attack = entangle;
-    } else if (attack.hasClass('dragon-blade')) {
+    } else if (attack.hasClass(dragonBlade.name)) {
         attack = dragonBlade;
-    } else if (attack.hasClass('star-fire')) {
+    } else if (attack.hasClass(starFire.name)) {
         attack = starFire;
     }
     if (playerAP >= attack.cost) {
@@ -101,6 +101,6 @@ function onAttack() {
 function fungusRegen() {
     if (fungusHP < 50 && fungusHP > 0) {
         fungusHP++;
+        render();
     }
-    render();
 }
