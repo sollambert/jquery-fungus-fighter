@@ -66,9 +66,9 @@ function onAttack() {
 
     if (playerAP >= attack.cost) {
         fungusHP -= attack.damage;
+        (fungusHP < 0 ? fungusHP = 0:null);
         playerAP -= attack.cost;
-    } else {
-        console.log('not enough ap')
+        (playerAP < 0 ? playerAP = 0:null);
     }
     
     if (checkIfDead()) {
